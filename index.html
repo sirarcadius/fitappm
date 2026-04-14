@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de Treino - Millene <3</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-glow: rgba(34,197,94,0.25);
+    --blue-glow: rgba(59,130,246,0.25);
+  }
+  * { font-family: 'Barlow', sans-serif; }
+  h1,h2,h3,.heading { font-family: 'Barlow Condensed', sans-serif; }
+  body { background: #0a0f1a; }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeUp 0.35s ease; }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(14px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .tab-btn { transition: all 0.2s ease; }
+  .tab-btn.active-a {
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    color: #fff;
+    box-shadow: 0 0 18px var(--green-glow);
+  }
+  .tab-btn.active-b {
+    background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+    color: #fff;
+    box-shadow: 0 0 18px var(--blue-glow);
+  }
+
+  .card-a {
+    border-left: 3px solid #22c55e;
+    background: linear-gradient(135deg, #111827, #0d1f12);
+    box-shadow: 0 2px 20px rgba(34,197,94,0.08);
+    transition: box-shadow 0.2s;
+  }
+  .card-a:hover { box-shadow: 0 4px 28px rgba(34,197,94,0.18); }
+  .card-b {
+    border-left: 3px solid #3b82f6;
+    background: linear-gradient(135deg, #111827, #0d1322);
+    box-shadow: 0 2px 20px rgba(59,130,246,0.08);
+    transition: box-shadow 0.2s;
+  }
+  .card-b:hover { box-shadow: 0 4px 28px rgba(59,130,246,0.18); }
+
+  .badge-pulse { animation: pulseBadge 2.5s infinite; }
+  @keyframes pulseBadge {
+    0%,100% { opacity:1; }
+    50% { opacity:0.7; }
+  }
+
+  .timer-ring { transition: stroke-dashoffset 1s linear; }
+  .progress-bar { transition: width 0.4s ease; }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #0a0f1a; }
+  ::-webkit-scrollbar-thumb { background: #374151; border-radius: 2px; }
+
+  .sticky-header { backdrop-filter: blur(12px); background: rgba(10,15,26,0.9); }
+
+  /* Focus pill tags */
+  .focus-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; padding: 2px 8px;
+    border-radius: 999px; letter-spacing: 0.03em;
+  }
+</style>
+</head>
+<body class="bg-grid min-h-screen text-gray-100">
+
+<!-- ── STICKY HEADER ── -->
+<header class="sticky top-0 z-50 sticky-header border-b border-gray-800">
+  <div class="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
+    <div>
+      <h1 class="heading text-2xl font-extrabold tracking-wider text-white leading-none">
+        <i class="fa-solid fa-dumbbell mr-2 text-pink-400"></i>MEU TREINO
+      </h1>
+      <p class="text-xs text-gray-400 mt-0.5">Glúteo & Definição · Proteção Articular</p>
+    </div>
+    <div class="text-right">
+      <div id="dayLabel" class="text-xs text-gray-400">Hoje</div>
+      <div id="clock" class="heading text-lg font-bold text-white tracking-widest"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ── SAFETY CHECKLIST ── -->
+<section class="max-w-lg mx-auto px-4 pt-4 pb-2">
+  <div class="bg-gray-900 border border-gray-700 rounded-2xl p-4">
+    <h2 class="heading text-lg font-bold text-yellow-400 mb-3 tracking-wide">
+      <i class="fa-solid fa-shield-halved mr-2"></i>CHECKLIST DE SEGURANÇA
+    </h2>
+    <div class="space-y-2">
+      <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="checkbox" class="hidden" id="c1">
+        <span class="chk-box w-6 h-6 rounded-md border-2 border-blue-400 flex items-center justify-center shrink-0 transition-all text-white text-xs font-bold"></span>
+        <span class="text-sm text-gray-300 group-hover:text-white transition-colors">
+          <i class="fa-solid fa-droplet text-blue-400 mr-1.5"></i>
+          <strong>Beber Água</strong> — Meta: 3–4 litros hoje
+        </span>
+      </label>
+      <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="checkbox" class="hidden" id="c2">
+        <span class="chk-box w-6 h-6 rounded-md border-2 border-yellow-400 flex items-center justify-center shrink-0 transition-all text-white text-xs font-bold"></span>
+        <span class="text-sm text-gray-300 group-hover:text-white transition-colors">
+          <i class="fa-solid fa-circle-exclamation text-yellow-400 mr-1.5"></i>
+          <strong>Sem agachamento</strong> livre ou leg press — só máquinas guiadas
+        </span>
+      </label>
+      <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="checkbox" class="hidden" id="c3">
+        <span class="chk-box w-6 h-6 rounded-md border-2 border-green-400 flex items-center justify-center shrink-0 transition-all text-white text-xs font-bold"></span>
+        <span class="text-sm text-gray-300 group-hover:text-white transition-colors">
+          <i class="fa-solid fa-stopwatch text-green-400 mr-1.5"></i>
+          <strong>Descanso 90 segundos</strong> entre as séries
+        </span>
+      </label>
+    </div>
+    <div class="mt-3 h-1.5 bg-gray-700 rounded-full overflow-hidden">
+      <div id="checkProgress" class="progress-bar h-full bg-gradient-to-r from-pink-500 to-rose-400 rounded-full" style="width:0%"></div>
+    </div>
+    <p id="checkText" class="text-xs text-gray-500 mt-1">0 de 3 concluídos</p>
+  </div>
+</section>
+
+<!-- ── REST TIMER ── -->
+<section class="max-w-lg mx-auto px-4 py-2">
+  <div class="bg-gray-900 border border-gray-700 rounded-2xl p-4 flex items-center gap-4">
+    <div class="relative w-16 h-16 shrink-0">
+      <svg class="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="27" fill="none" stroke="#1f2937" stroke-width="5"/>
+        <circle id="timerRing" cx="32" cy="32" r="27" fill="none" stroke="#22c55e" stroke-width="5"
+          stroke-dasharray="169.6" stroke-dashoffset="169.6" stroke-linecap="round" class="timer-ring"/>
+      </svg>
+      <span id="timerDisplay" class="heading absolute inset-0 flex items-center justify-center text-lg font-bold text-white">90</span>
+    </div>
+    <div class="flex-1">
+      <p class="text-xs text-gray-400 mb-1">Descanso entre séries</p>
+      <div class="flex gap-2">
+        <button onclick="startTimer()" class="flex-1 bg-green-600 hover:bg-green-500 text-white text-sm font-semibold rounded-xl py-2 transition-colors">
+          <i class="fa-solid fa-play mr-1"></i>Iniciar
+        </button>
+        <button onclick="resetTimer()" class="px-3 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-xl transition-colors">
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+      </div>
+    </div>
+    <div class="text-right shrink-0">
+      <p class="text-xs text-gray-400">Série atual</p>
+      <p id="currentSet" class="heading text-2xl font-bold text-white">1</p>
+      <div class="flex gap-1 justify-end mt-1">
+        <button onclick="prevSet()" class="text-gray-500 hover:text-white text-xs"><i class="fa-solid fa-minus"></i></button>
+        <button onclick="nextSet()" class="text-gray-500 hover:text-white text-xs"><i class="fa-solid fa-plus"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TAB SELECTOR ── -->
+<section class="max-w-lg mx-auto px-4 pb-3">
+  <div class="grid grid-cols-2 gap-3">
+    <button onclick="switchTab('a')" id="btnA"
+      class="tab-btn active-a heading text-xl font-extrabold tracking-widest rounded-2xl py-3.5">
+      <i class="fa-solid fa-bolt mr-2"></i>TREINO A
+    </button>
+    <button onclick="switchTab('b')" id="btnB"
+      class="tab-btn heading text-xl font-extrabold tracking-widest rounded-2xl py-3.5 text-gray-400 bg-gray-800 border border-gray-700">
+      <i class="fa-solid fa-fire mr-2"></i>TREINO B
+    </button>
+  </div>
+</section>
+
+<!-- ══════════════ TREINO A ══════════════ -->
+<main id="tabA" class="tab-content active max-w-lg mx-auto px-4 pb-24 space-y-3">
+
+  <div class="bg-green-950/40 border border-green-800/40 rounded-2xl px-4 py-3 mb-1">
+    <div class="flex items-center gap-2 mb-1">
+      <span class="w-2 h-2 rounded-full bg-green-400 inline-block animate-pulse"></span>
+      <h2 class="heading text-base font-bold text-green-400 tracking-widest uppercase">Inferiores & Estabilização · 5 Exercícios</h2>
+    </div>
+    <p class="text-xs text-gray-400"><i class="fa-solid fa-bullseye mr-1 text-green-500"></i>Objetivo: Criar massa magra nas pernas, acelerar o metabolismo e proteger a patela</p>
+  </div>
+
+  <!-- A1 — Cadeira Extensora -->
+  <div class="card-a rounded-2xl p-4">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-green-900/60 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-person-walking-arrow-loop-left text-green-400 text-lg"></i>
+        </div>
+        <div>
+          <h3 class="heading text-lg font-bold text-white leading-tight">Cadeira Extensora</h3>
+          <span class="text-xs text-gray-400">Quadríceps · Máquina</span>
+        </div>
+      </div>
+      <span class="heading text-base font-extrabold text-green-400 shrink-0">3×15</span>
+    </div>
+    <div class="flex flex-wrap gap-1.5 mb-2">
+      <span class="focus-tag bg-green-900/60 text-green-300 border border-green-700/40">
+        <i class="fa-solid fa-crosshairs text-green-400 text-xs"></i> Frente da coxa
+      </span>
+      <span class="focus-tag bg-purple-900/50 text-purple-300 border border-purple-700/40">
+        <i class="fa-solid fa-shield text-purple-400 text-xs"></i> Protege a patela
+      </span>
+    </div>
+    <div class="bg-gray-800/60 rounded-xl p-3 mb-2 space-y-1.5">
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-circle-info text-blue-400 mr-2 w-4"></i>Sentada, empurre o rolo para cima controlando o movimento</p>
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-sliders text-purple-400 mr-2 w-4"></i><strong>Ajuste:</strong> Rolo logo acima do tornozelo — não sobre o pé</p>
+    </div>
+    <div class="flex items-center gap-2 bg-yellow-900/30 border border-yellow-600/40 rounded-xl px-3 py-2">
+      <i class="fa-solid fa-triangle-exclamation text-yellow-400 badge-pulse shrink-0"></i>
+      <p class="text-xs text-yellow-200"><strong>Atenção:</strong> Controle a descida devagar — não solte o peso de uma vez</p>
+    </div>
+    <div class="flex gap-1 mt-3" data-color="green">
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 1</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 2</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 3</button>
+    </div>
+  </div>
+
+  <!-- A2 — Cadeira Flexora -->
+  <div class="card-a rounded-2xl p-4">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-green-900/60 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-chair text-green-400 text-lg"></i>
+        </div>
+        <div>
+          <h3 class="heading text-lg font-bold text-white leading-tight">Cadeira Flexora</h3>
+          <span class="text-xs text-gray-400">Isquiotibiais · Máquina</span>
+        </div>
+      </div>
+      <span class="heading text-base font-extrabold text-green-400 shrink-0">3×15</span>
+    </div>
+    <div class="flex flex-wrap gap-1.5 mb-2">
+      <span class="focus-tag bg-green-900/60 text-green-300 border border-green-700/40">
+        <i class="fa-solid fa-crosshairs text-green-400 text-xs"></i> Posterior da coxa
+      </span>
+      <span class="focus-tag bg-blue-900/50 text-blue-300 border border-blue-700/40">
+        <i class="fa-solid fa-shield text-blue-400 text-xs"></i> Estabiliza o joelho
+      </span>
+    </div>
+    <div class="bg-gray-800/60 rounded-xl p-3 mb-2 space-y-1.5">
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-circle-info text-blue-400 mr-2 w-4"></i>Sentada, empurre o rolo para baixo com os calcanhares</p>
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-hands-holding text-purple-400 mr-2 w-4"></i><strong>Postura:</strong> Segure firme nos apoios laterais, costas apoiadas</p>
+    </div>
+    <div class="flex items-center gap-2 bg-blue-900/30 border border-blue-600/40 rounded-xl px-3 py-2">
+      <i class="fa-solid fa-info-circle text-blue-400 shrink-0"></i>
+      <p class="text-xs text-blue-200"><strong>Por que importa:</strong> Este músculo estabiliza o joelho "por trás" — essencial para sua proteção</p>
+    </div>
+    <div class="flex gap-1 mt-3" data-color="green">
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 1</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 2</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 3</button>
+    </div>
+  </div>
+
+  <!-- A3 — Cadeira Abdutora -->
+  <div class="card-a rounded-2xl p-4">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-green-900/60 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-arrows-left-right text-green-400 text-lg"></i>
+        </div>
+        <div>
+          <h3 class="heading text-lg font-bold text-white leading-tight">Cadeira Abdutora</h3>
+          <span class="text-xs text-gray-400">Glúteo Médio · Máquina</span>
+        </div>
+      </div>
+      <span class="heading text-base font-extrabold text-green-400 shrink-0">4×15-20</span>
+    </div>
+    <div class="flex flex-wrap gap-1.5 mb-2">
+      <span class="focus-tag bg-pink-900/60 text-pink-300 border border-pink-700/40">
+        <i class="fa-solid fa-star text-pink-400 text-xs"></i> Glúteo médio
+      </span>
+      <span class="focus-tag bg-green-900/60 text-green-300 border border-green-700/40">
+        <i class="fa-solid fa-shapes text-green-400 text-xs"></i> Desenho da perna
+      </span>
+    </div>
+    <div class="bg-gray-800/60 rounded-xl p-3 mb-2 space-y-1.5">
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-circle-info text-blue-400 mr-2 w-4"></i>Sentada, afaste as pernas contra a resistência</p>
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-child-reaching text-purple-400 mr-2 w-4"></i><strong>Postura:</strong> Peito estufado, coluna reta, movimento controlado</p>
+    </div>
+    <div class="flex items-center gap-2 bg-pink-900/30 border border-pink-600/40 rounded-xl px-3 py-2">
+      <i class="fa-solid fa-circle-info text-pink-400 shrink-0"></i>
+      <p class="text-xs text-pink-200"><strong>Dica extra:</strong> Este exercício impede o joelho de cair para dentro — são 4 séries por isso!</p>
+    </div>
+    <div class="flex gap-1 mt-3" data-color="green">
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">S1</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">S2</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">S3</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">S4</button>
+    </div>
+  </div>
+
+  <!-- A4 — Cadeira Adutora -->
+  <div class="card-a rounded-2xl p-4">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-green-900/60 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-compress text-green-400 text-lg"></i>
+        </div>
+        <div>
+          <h3 class="heading text-lg font-bold text-white leading-tight">Cadeira Adutora</h3>
+          <span class="text-xs text-gray-400">Face Interna da Coxa · Máquina</span>
+        </div>
+      </div>
+      <span class="heading text-base font-extrabold text-green-400 shrink-0">3×15</span>
+    </div>
+    <div class="flex flex-wrap gap-1.5 mb-2">
+      <span class="focus-tag bg-rose-900/60 text-rose-300 border border-rose-700/40">
+        <i class="fa-solid fa-crosshairs text-rose-400 text-xs"></i> Interno da coxa
+      </span>
+      <span class="focus-tag bg-green-900/60 text-green-300 border border-green-700/40">
+        <i class="fa-solid fa-scissors text-green-400 text-xs"></i> Definição feminina
+      </span>
+    </div>
+    <div class="bg-gray-800/60 rounded-xl p-3 mb-2 space-y-1.5">
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-circle-info text-blue-400 mr-2 w-4"></i>Sentada, feche as pernas contra a resistência</p>
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-person-sitting text-purple-400 mr-2 w-4"></i><strong>Postura:</strong> Coluna reta, não incline o tronco ao fechar</p>
+    </div>
+    <div class="flex items-center gap-2 bg-yellow-900/30 border border-yellow-600/40 rounded-xl px-3 py-2">
+      <i class="fa-solid fa-triangle-exclamation text-yellow-400 badge-pulse shrink-0"></i>
+      <p class="text-xs text-yellow-200"><strong>Atenção:</strong> Movimento controlado nos dois sentidos — não solte a resistência bruscamente</p>
+    </div>
+    <div class="flex gap-1 mt-3" data-color="green">
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 1</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 2</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 3</button>
+    </div>
+  </div>
+
+  <!-- A5 — Puxada Aberta Pulley -->
+  <div class="card-a rounded-2xl p-4">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-green-900/60 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-arrows-down-to-line text-green-400 text-lg"></i>
+        </div>
+        <div>
+          <h3 class="heading text-lg font-bold text-white leading-tight">Puxada Aberta Pulley</h3>
+          <span class="text-xs text-gray-400">Costas / Latíssimo · Polia</span>
+        </div>
+      </div>
+      <span class="heading text-base font-extrabold text-green-400 shrink-0">3×12</span>
+    </div>
+    <div class="flex flex-wrap gap-1.5 mb-2">
+      <span class="focus-tag bg-teal-900/60 text-teal-300 border border-teal-700/40">
+        <i class="fa-solid fa-crosshairs text-teal-400 text-xs"></i> Costas / axilas
+      </span>
+      <span class="focus-tag bg-green-900/60 text-green-300 border border-green-700/40">
+        <i class="fa-solid fa-ruler-vertical text-green-400 text-xs"></i> Postura ereta
+      </span>
+    </div>
+    <div class="bg-gray-800/60 rounded-xl p-3 mb-2 space-y-1.5">
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-circle-info text-blue-400 mr-2 w-4"></i>Sentada, puxe a barra larga até a altura do peito</p>
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-person text-purple-400 mr-2 w-4"></i><strong>Postura:</strong> Inclinação leve do tronco para trás ao puxar</p>
+    </div>
+    <div class="flex items-center gap-2 bg-red-900/30 border border-red-600/40 rounded-xl px-3 py-2">
+      <i class="fa-solid fa-circle-xmark text-red-400 badge-pulse shrink-0"></i>
+      <p class="text-xs text-red-200"><strong>PROIBIDO:</strong> Nunca puxe a barra por trás da cabeça — risco de lesão no ombro</p>
+    </div>
+    <div class="flex gap-1 mt-3" data-color="green">
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 1</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 2</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 3</button>
+    </div>
+  </div>
+
+  <!-- A6 CARDIO -->
+  <div class="rounded-2xl p-4 border border-green-500/30 bg-gradient-to-br from-green-950/60 to-gray-900">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="w-10 h-10 rounded-xl bg-green-900/80 flex items-center justify-center shrink-0">
+        <i class="fa-solid fa-person-running text-green-300 text-xl"></i>
+      </div>
+      <div>
+        <h3 class="heading text-lg font-bold text-white">Cardio Final</h3>
+        <span class="text-xs text-green-400 font-semibold">20 minutos · Elíptico (Transport)</span>
+      </div>
+    </div>
+    <div class="bg-green-900/20 rounded-xl px-3 py-2 space-y-1">
+      <p class="text-sm text-green-200 flex items-center gap-2">
+        <i class="fa-solid fa-heart-pulse text-green-400"></i>
+        <strong>Zero impacto</strong> nos joelhos — superior à esteira
+      </p>
+      <p class="text-xs text-gray-400">Trabalha braços e pernas juntos → maior gasto calórico</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- ══════════════ TREINO B ══════════════ -->
+<main id="tabB" class="tab-content max-w-lg mx-auto px-4 pb-24 space-y-3">
+
+  <div class="bg-blue-950/40 border border-blue-800/40 rounded-2xl px-4 py-3 mb-1">
+    <div class="flex items-center gap-2 mb-1">
+      <span class="w-2 h-2 rounded-full bg-blue-400 inline-block animate-pulse"></span>
+      <h2 class="heading text-base font-bold text-blue-400 tracking-widest uppercase">Superiores, Core & Glúteo · 7 Exercícios</h2>
+    </div>
+    <p class="text-xs text-gray-400"><i class="fa-solid fa-bullseye mr-1 text-blue-500"></i>Objetivo: Definição de braços/abdômen e volume de glúteo sem agredir o joelho</p>
+  </div>
+
+  <!-- B1 — Supino Vertical -->
+  <div class="card-b rounded-2xl p-4">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-900/60 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-hand-fist text-blue-400 text-lg"></i>
+        </div>
+        <div>
+          <h3 class="heading text-lg font-bold text-white leading-tight">Supino Vertical Máquina</h3>
+          <span class="text-xs text-gray-400">Peitoral / Tríceps · Máquina</span>
+        </div>
+      </div>
+      <span class="heading text-base font-extrabold text-blue-400 shrink-0">3×12</span>
+    </div>
+    <div class="flex flex-wrap gap-1.5 mb-2">
+      <span class="focus-tag bg-blue-900/60 text-blue-300 border border-blue-700/40">
+        <i class="fa-solid fa-crosshairs text-blue-400 text-xs"></i> Peitoral
+      </span>
+      <span class="focus-tag bg-purple-900/50 text-purple-300 border border-purple-700/40">
+        <i class="fa-solid fa-arrows-up-to-line text-purple-400 text-xs"></i> Postura
+      </span>
+    </div>
+    <div class="bg-gray-800/60 rounded-xl p-3 mb-2 space-y-1.5">
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-circle-info text-blue-400 mr-2 w-4"></i>Sentada, empurre as manoplas para frente</p>
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-angles-down text-purple-400 mr-2 w-4"></i><strong>Postura:</strong> Ombros para baixo e para trás o tempo todo</p>
+    </div>
+    <div class="flex items-center gap-2 bg-yellow-900/30 border border-yellow-600/40 rounded-xl px-3 py-2">
+      <i class="fa-solid fa-triangle-exclamation text-yellow-400 badge-pulse shrink-0"></i>
+      <p class="text-xs text-yellow-200"><strong>Atenção:</strong> Não estique o cotovelo completamente — protege as articulações</p>
+    </div>
+    <div class="flex gap-1 mt-3" data-color="blue">
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 1</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 2</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 3</button>
+    </div>
+  </div>
+
+  <!-- B2 — Desenvolvimento Ombros -->
+  <div class="card-b rounded-2xl p-4">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-900/60 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-arrow-up text-blue-400 text-lg"></i>
+        </div>
+        <div>
+          <h3 class="heading text-lg font-bold text-white leading-tight">Desenvolvimento Ombros</h3>
+          <span class="text-xs text-gray-400">Deltóide · Máquina ou Halter</span>
+        </div>
+      </div>
+      <span class="heading text-base font-extrabold text-blue-400 shrink-0">3×12</span>
+    </div>
+    <div class="flex flex-wrap gap-1.5 mb-2">
+      <span class="focus-tag bg-blue-900/60 text-blue-300 border border-blue-700/40">
+        <i class="fa-solid fa-crosshairs text-blue-400 text-xs"></i> Ombros
+      </span>
+      <span class="focus-tag bg-pink-900/50 text-pink-300 border border-pink-700/40">
+        <i class="fa-solid fa-wand-magic-sparkles text-pink-400 text-xs"></i> Ilusão de cintura fina
+      </span>
+    </div>
+    <div class="bg-gray-800/60 rounded-xl p-3 mb-2 space-y-1.5">
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-circle-info text-blue-400 mr-2 w-4"></i>Empurre o peso para cima trabalhando os ombros</p>
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-couch text-purple-400 mr-2 w-4"></i><strong>Postura:</strong> Costas bem apoiadas no encosto</p>
+    </div>
+    <div class="flex items-center gap-2 bg-yellow-900/30 border border-yellow-600/40 rounded-xl px-3 py-2">
+      <i class="fa-solid fa-triangle-exclamation text-yellow-400 badge-pulse shrink-0"></i>
+      <p class="text-xs text-yellow-200"><strong>Atenção:</strong> Na descida, pare na altura das orelhas — não desça além</p>
+    </div>
+    <div class="flex gap-1 mt-3" data-color="blue">
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 1</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 2</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 3</button>
+    </div>
+  </div>
+
+  <!-- B3 — Tríceps Pulley Corda -->
+  <div class="card-b rounded-2xl p-4">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-900/60 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-arrows-down-to-people text-blue-400 text-lg"></i>
+        </div>
+        <div>
+          <h3 class="heading text-lg font-bold text-white leading-tight">Tríceps Pulley — Corda</h3>
+          <span class="text-xs text-gray-400">Tríceps · Polia</span>
+        </div>
+      </div>
+      <span class="heading text-base font-extrabold text-blue-400 shrink-0">3×15</span>
+    </div>
+    <div class="flex flex-wrap gap-1.5 mb-2">
+      <span class="focus-tag bg-blue-900/60 text-blue-300 border border-blue-700/40">
+        <i class="fa-solid fa-hand-peace text-blue-400 text-xs"></i> Músculo do tchau
+      </span>
+      <span class="focus-tag bg-teal-900/60 text-teal-300 border border-teal-700/40">
+        <i class="fa-solid fa-maximize text-teal-400 text-xs"></i> Corda = mais amplitude
+      </span>
+    </div>
+    <div class="bg-gray-800/60 rounded-xl p-3 mb-2 space-y-1.5">
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-circle-info text-blue-400 mr-2 w-4"></i>Empurre a corda para baixo, abrindo levemente as pontas ao final</p>
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-lock text-purple-400 mr-2 w-4"></i><strong>Postura:</strong> Cotovelos fixos e colados ao tronco</p>
+    </div>
+    <div class="flex items-center gap-2 bg-yellow-900/30 border border-yellow-600/40 rounded-xl px-3 py-2">
+      <i class="fa-solid fa-triangle-exclamation text-yellow-400 badge-pulse shrink-0"></i>
+      <p class="text-xs text-yellow-200"><strong>Atenção:</strong> Só o antebraço se move — os cotovelos ficam parados</p>
+    </div>
+    <div class="flex gap-1 mt-3" data-color="blue">
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 1</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 2</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 3</button>
+    </div>
+  </div>
+
+  <!-- B4 — Glúteo Máquina -->
+  <div class="card-b rounded-2xl p-4">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-900/60 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-person-walking text-blue-400 text-lg"></i>
+        </div>
+        <div>
+          <h3 class="heading text-lg font-bold text-white leading-tight">Glúteo Máquina</h3>
+          <span class="text-xs text-gray-400">Glúteo Máximo · Máquina / Polia</span>
+        </div>
+      </div>
+      <span class="heading text-base font-extrabold text-blue-400 shrink-0">3×12 / perna</span>
+    </div>
+    <div class="flex flex-wrap gap-1.5 mb-2">
+      <span class="focus-tag bg-pink-900/60 text-pink-300 border border-pink-700/40">
+        <i class="fa-solid fa-star text-pink-400 text-xs"></i> Glúteo máximo
+      </span>
+      <span class="focus-tag bg-green-900/60 text-green-300 border border-green-700/40">
+        <i class="fa-solid fa-shield-halved text-green-400 text-xs"></i> Joelho seguro
+      </span>
+    </div>
+    <div class="bg-gray-800/60 rounded-xl p-3 mb-2 space-y-1.5">
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-circle-info text-blue-400 mr-2 w-4"></i>Empurre a perna para trás contraindo o glúteo no pico</p>
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-layer-group text-purple-400 mr-2 w-4"></i><strong>Segurança:</strong> O joelho não faz flexão profunda com carga — exercício seguro para você</p>
+    </div>
+    <div class="flex items-center gap-2 bg-pink-900/30 border border-pink-600/40 rounded-xl px-3 py-2">
+      <i class="fa-solid fa-fire text-pink-400 shrink-0"></i>
+      <p class="text-xs text-pink-200"><strong>Dica:</strong> Segure a contração por 1 segundo no pico — potencializa o resultado</p>
+    </div>
+    <!-- Per leg sets -->
+    <p class="text-xs text-gray-500 mt-2 mb-1">Perna Esquerda</p>
+    <div class="flex gap-1 mb-2" data-color="blue">
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">S1</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">S2</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">S3</button>
+    </div>
+    <p class="text-xs text-gray-500 mb-1">Perna Direita</p>
+    <div class="flex gap-1" data-color="blue">
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">S1</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">S2</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">S3</button>
+    </div>
+  </div>
+
+  <!-- B5 — Panturrilha Sentada -->
+  <div class="card-b rounded-2xl p-4">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-900/60 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-shoe-prints text-blue-400 text-lg"></i>
+        </div>
+        <div>
+          <h3 class="heading text-lg font-bold text-white leading-tight">Panturrilha Sentada</h3>
+          <span class="text-xs text-gray-400">Panturrilha (Sóleo) · Máquina</span>
+        </div>
+      </div>
+      <span class="heading text-base font-extrabold text-blue-400 shrink-0">3×20</span>
+    </div>
+    <div class="flex flex-wrap gap-1.5 mb-2">
+      <span class="focus-tag bg-blue-900/60 text-blue-300 border border-blue-700/40">
+        <i class="fa-solid fa-droplet text-blue-400 text-xs"></i> Circulação
+      </span>
+      <span class="focus-tag bg-teal-900/60 text-teal-300 border border-teal-700/40">
+        <i class="fa-solid fa-shapes text-teal-400 text-xs"></i> Definição da panturrilha
+      </span>
+    </div>
+    <div class="bg-gray-800/60 rounded-xl p-3 mb-2 space-y-1.5">
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-circle-info text-blue-400 mr-2 w-4"></i>Empurre o peso para cima com a ponta dos pés</p>
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-up-down text-purple-400 mr-2 w-4"></i><strong>Amplitude:</strong> Desça bem (calcanhar abaixo), suba bem (ponta do pé)</p>
+    </div>
+    <div class="flex items-center gap-2 bg-blue-900/30 border border-blue-600/40 rounded-xl px-3 py-2">
+      <i class="fa-solid fa-info-circle text-blue-400 shrink-0"></i>
+      <p class="text-xs text-blue-200"><strong>Dica:</strong> 20 repetições ajudam a drenar o inchaço das pernas — muito bom para circulação!</p>
+    </div>
+    <div class="flex gap-1 mt-3" data-color="blue">
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 1</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 2</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 3</button>
+    </div>
+  </div>
+
+  <!-- B6 — Abdominal Infra -->
+  <div class="card-b rounded-2xl p-4">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-900/60 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-person-falling text-blue-400 text-lg"></i>
+        </div>
+        <div>
+          <h3 class="heading text-lg font-bold text-white leading-tight">Abdominal Infra</h3>
+          <span class="text-xs text-gray-400">Abdômen Inferior · Banco</span>
+        </div>
+      </div>
+      <span class="heading text-base font-extrabold text-blue-400 shrink-0">3×15</span>
+    </div>
+    <div class="flex flex-wrap gap-1.5 mb-2">
+      <span class="focus-tag bg-rose-900/60 text-rose-300 border border-rose-700/40">
+        <i class="fa-solid fa-fire text-rose-400 text-xs"></i> Abdômen inferior
+      </span>
+      <span class="focus-tag bg-blue-900/60 text-blue-300 border border-blue-700/40">
+        <i class="fa-solid fa-chair text-blue-400 text-xs"></i> Sentada no banco
+      </span>
+    </div>
+    <div class="bg-gray-800/60 rounded-xl p-3 mb-2 space-y-1.5">
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-circle-info text-blue-400 mr-2 w-4"></i>Sentada na borda do banco, segure as laterais e eleve os joelhos</p>
+      <p class="text-sm text-gray-300"><i class="fa-solid fa-compress text-purple-400 mr-2 w-4"></i><strong>Postura:</strong> Aproxime os joelhos do peito contraindo o abdômen</p>
+    </div>
+    <div class="flex items-center gap-2 bg-blue-900/30 border border-blue-600/40 rounded-xl px-3 py-2">
+      <i class="fa-solid fa-info-circle text-blue-400 shrink-0"></i>
+      <p class="text-xs text-blue-200"><strong>Respiração:</strong> Expire ao subir os joelhos — isso intensifica a contração abdominal</p>
+    </div>
+    <div class="flex gap-1 mt-3" data-color="blue">
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 1</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 2</button>
+      <button onclick="markSet(this)" class="serie-btn flex-1 py-1.5 rounded-lg bg-gray-700 text-xs text-gray-300 transition-all">Série 3</button>
+    </div>
+  </div>
+
+  <!-- B7 CARDIO -->
+  <div class="rounded-2xl p-4 border border-blue-500/30 bg-gradient-to-br from-blue-950/60 to-gray-900">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="w-10 h-10 rounded-xl bg-blue-900/80 flex items-center justify-center shrink-0">
+        <i class="fa-solid fa-bicycle text-blue-300 text-xl"></i>
+      </div>
+      <div>
+        <h3 class="heading text-lg font-bold text-white">Cardio Final</h3>
+        <span class="text-xs text-blue-400 font-semibold">20 minutos · Bicicleta Ergométrica</span>
+      </div>
+    </div>
+    <div class="bg-blue-900/20 rounded-xl px-3 py-2 space-y-1">
+      <p class="text-sm text-blue-200 flex items-center gap-2">
+        <i class="fa-solid fa-heart-pulse text-blue-400"></i>
+        Carga <strong>moderada</strong> — tonifica a coxa e queima gordura
+      </p>
+      <p class="text-xs text-gray-400">Zero impacto nos joelhos · Mantenha ritmo constante</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── TOAST ── -->
+<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-800 border border-gray-600 text-white text-sm px-4 py-2 rounded-xl opacity-0 pointer-events-none transition-opacity duration-300 z-50 whitespace-nowrap">
+  ✅ Série concluída!
+</div>
+
+<!-- ── BOTTOM NAV ── -->
+<nav class="fixed bottom-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur border-t border-gray-700">
+  <div class="max-w-lg mx-auto px-4 py-2 flex items-center justify-around">
+    <button onclick="switchTab('a')" class="flex flex-col items-center gap-0.5 px-4 py-1 rounded-xl">
+      <i class="fa-solid fa-bolt text-green-400 text-lg"></i>
+      <span class="text-xs text-green-400 font-semibold">Treino A</span>
+    </button>
+    <button onclick="startTimer()" class="w-14 h-14 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 border-2 border-gray-500 flex items-center justify-center shadow-lg -mt-4">
+      <i class="fa-solid fa-stopwatch text-white text-xl"></i>
+    </button>
+    <button onclick="switchTab('b')" class="flex flex-col items-center gap-0.5 px-4 py-1 rounded-xl">
+      <i class="fa-solid fa-fire text-blue-400 text-lg"></i>
+      <span class="text-xs text-blue-400 font-semibold">Treino B</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+// Clock
+function updateClock() {
+  const now = new Date();
+  const days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  document.getElementById('clock').textContent =
+    now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+  document.getElementById('dayLabel').textContent = days[now.getDay()];
+}
+updateClock(); setInterval(updateClock, 1000);
+
+// Tabs
+function switchTab(tab) {
+  document.getElementById('tabA').classList.toggle('active', tab === 'a');
+  document.getElementById('tabB').classList.toggle('active', tab === 'b');
+  const btnA = document.getElementById('btnA');
+  const btnB = document.getElementById('btnB');
+  const base = 'tab-btn heading text-xl font-extrabold tracking-widest rounded-2xl py-3.5 ';
+  btnA.className = base + (tab === 'a' ? 'active-a text-white' : 'text-gray-400 bg-gray-800 border border-gray-700');
+  btnB.className = base + (tab === 'b' ? 'active-b text-white' : 'text-gray-400 bg-gray-800 border border-gray-700');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Series
+function markSet(btn) {
+  const done = btn.classList.contains('done');
+  const parent = btn.closest('[data-color]');
+  const color = parent ? parent.dataset.color : 'green';
+  const doneClass = color === 'blue' ? 'bg-blue-700' : 'bg-green-700';
+  if (done) {
+    btn.classList.remove('done', doneClass, 'text-white', 'line-through');
+    btn.classList.add('bg-gray-700', 'text-gray-300');
+  } else {
+    btn.classList.remove('bg-gray-700', 'text-gray-300');
+    btn.classList.add('done', doneClass, 'text-white', 'line-through');
+    showToast(); startTimer();
+  }
+}
+function showToast() {
+  const t = document.getElementById('toast');
+  t.style.opacity = '1';
+  setTimeout(() => t.style.opacity = '0', 2000);
+}
+
+// Timer
+let timerInterval = null, timeLeft = 90, totalTime = 90;
+const CIRC = 169.6;
+function updateRing() {
+  const pct = timeLeft / totalTime;
+  document.getElementById('timerRing').style.strokeDashoffset = CIRC * (1 - pct);
+  document.getElementById('timerDisplay').textContent = timeLeft;
+  const ring = document.getElementById('timerRing');
+  ring.style.stroke = timeLeft <= 15 ? '#ef4444' : timeLeft <= 30 ? '#f59e0b' : '#22c55e';
+}
+function startTimer() {
+  if (timerInterval) return;
+  timerInterval = setInterval(() => {
+    if (timeLeft <= 0) { clearInterval(timerInterval); timerInterval = null; return; }
+    timeLeft--; updateRing();
+  }, 1000);
+}
+function resetTimer() {
+  clearInterval(timerInterval); timerInterval = null;
+  timeLeft = totalTime; updateRing();
+}
+updateRing();
+
+let setCount = 1;
+function nextSet() { setCount = Math.min(setCount+1,20); document.getElementById('currentSet').textContent = setCount; }
+function prevSet() { setCount = Math.max(setCount-1,1); document.getElementById('currentSet').textContent = setCount; }
+
+// Checklist
+document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+  cb.addEventListener('change', function() {
+    const box = this.nextElementSibling;
+    const colors = { c1: 'bg-blue-400 border-blue-400', c2: 'bg-yellow-400 border-yellow-400', c3: 'bg-green-400 border-green-400' };
+    if (this.checked) {
+      box.className = box.className.replace(/border-\w+-\d+/, '');
+      box.classList.add(...(colors[this.id] || 'bg-green-400 border-green-400').split(' '));
+      box.innerHTML = '✓';
+    } else {
+      const defaults = { c1: 'border-blue-400', c2: 'border-yellow-400', c3: 'border-green-400' };
+      box.className = 'chk-box w-6 h-6 rounded-md border-2 flex items-center justify-center shrink-0 transition-all text-white text-xs font-bold ' + (defaults[this.id]||'border-green-400');
+      box.innerHTML = '';
+    }
+    updateChecklist();
+  });
+});
+function updateChecklist() {
+  const total = document.querySelectorAll('input[type=checkbox]').length;
+  const done  = document.querySelectorAll('input[type=checkbox]:checked').length;
+  document.getElementById('checkProgress').style.width = (done/total*100) + '%';
+  document.getElementById('checkText').textContent = done + ' de ' + total + ' concluídos';
+}
+</script>
+</body>
+</html>
